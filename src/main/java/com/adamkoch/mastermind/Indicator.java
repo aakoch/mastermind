@@ -6,6 +6,7 @@ package com.adamkoch.mastermind;
  * @author aakoch
  * @since 1.0.0
  */
-public enum Peg {
-    BLUE, RED, WHITE
+public enum Indicator {
+    CORRECT_COLOR,
+    CORRECT_COLOR_AND_PLACEMENT;
 }
