@@ -15,11 +15,12 @@ public class Game {
 
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
     public static final List<Peg> AVAILABLE_COLORS = Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg.ORANGE, Peg
-            .YELLOW, Peg.BLACK);//, Peg.A, Peg.B, Peg.C);
+            .YELLOW, Peg.BLACK, Peg.A, Peg.B, Peg.C);
     private final Board board;
     private final Player player;
-    public static final int BOARD_SIZE = 5;
+    public static final int BOARD_SIZE = 7;
     public static final List<List<Peg>> COMBINATIONS = ComboMaker.initialCombos(AVAILABLE_COLORS, BOARD_SIZE);
+    public static final int MAX_NUMBER_OF_TURNS = 10;
 
     public Game(Board board, Player player) {
         this.board = board;
@@ -56,13 +57,13 @@ public class Game {
         int numberOfTurns = 0;
         Indicator[] results;
         List<List<Peg>> combinations = new ArrayList<>(COMBINATIONS);
+        Collections.shuffle(combinations);
         Map<List<Peg>, Indicator[]> previousGuessAndResult = new HashMap<>();
 
         do {
-            if (combinations.size() <= 0) {
+            if (combinations.size() <= 0 || numberOfTurns > MAX_NUMBER_OF_TURNS) {
                 throw new RuntimeException("Ran out of guesses");
             }
-            Collections.shuffle(combinations);
             LOGGER.debug("combinations.size() = " + combinations.size());
             final List<Peg> guess = combinations.remove(0);
             LOGGER.debug("guess = " + guess);
@@ -71,7 +72,7 @@ public class Game {
 
             LOGGER.debug("results = " + Arrays.toString(results));
             numberOfTurns++;
-            combinations.removeIf(combo -> !Deductions.matchesPreviousResult(combo, previousGuessAndResult));
+            player.removeCombinations(combinations, previousGuessAndResult);
         }
         while (results.length != BOARD_SIZE || !Arrays.stream(results).allMatch(indicator -> indicator == Indicator
                 .CORRECT_COLOR_AND_PLACEMENT));
