@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>Created by aakoch on 2017-08-09.</p>
@@ -23,7 +24,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Board board = new Board(Peg.WHITE, Peg.BLUE, Peg.RED, Peg.WHITE);
+        Board board = new Board(Peg.WHITE, Peg.BLUE, Peg.WHITE, Peg.RED);
         Player player = new Player();
         Game game = new Game(board, player);
         int numberOfTurns = game.play();
@@ -32,18 +33,20 @@ public class Game {
 
     private int play() {
         int numberOfTurns = 0;
-        Indicator[] results = new Indicator[4];
-        while (!Arrays.stream(results).allMatch(indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT)) {
-            Peg peg1 = Peg.WHITE;
-            Peg peg2 = Peg.BLUE;
-            Peg peg3 = Peg.RED;
-            Peg peg4 = Peg.WHITE;
-            results = board.guess(peg1, peg2, peg3, peg4);
+        Indicator[] results;
+        List<List<Peg>> combinations = ComboMaker.initialCombos(Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE), 4);
+        List<Peg> guess = combinations.get(numberOfTurns);
+
+        do {
+            results = board.guess(guess);
             numberOfTurns++;
-            if (numberOfTurns > 100) {
-                throw new RuntimeException("Number of turns > 100");
+            if (numberOfTurns > combinations.size()) {
+                throw new RuntimeException("Ran out of guesses");
             }
+            guess = combinations.get(numberOfTurns);
         }
+        while (!Arrays.stream(results).allMatch(indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT));
+
         return numberOfTurns;
     }
 }

@@ -21,9 +21,9 @@ public class Board {
         this.peg4 = peg4;
     }
 
-    public Indicator[] guess(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
-        int numberOfPegsWithSameColor = calculateNumberOfPegsWithSameColor(peg1, peg2, peg3, peg4);
-        int numberOfPegsInCorrectPlace = calculateNumberOfPegsInCorrectPlace(peg1, peg2, peg3, peg4);
+    public Indicator[] guess(List<Peg> pegs) {
+        int numberOfPegsWithSameColor = calculateNumberOfPegsWithSameColor(pegs);
+        int numberOfPegsInCorrectPlace = calculateNumberOfPegsInCorrectPlace(pegs);
         int numberOfRedPegs = numberOfPegsInCorrectPlace;
         int numberOfWhitePegs = numberOfPegsWithSameColor - numberOfPegsInCorrectPlace;
         List<Indicator> results = new ArrayList<Indicator>();
@@ -37,20 +37,20 @@ public class Board {
         return results.toArray(arr);
     }
 
-    private int calculateNumberOfPegsInCorrectPlace(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
+    private int calculateNumberOfPegsInCorrectPlace(List<Peg> pegs) {
         int count = 0;
-        if (this.peg1 == peg1)
+        if (this.peg1 == pegs.get(0))
             count++;
-        if (this.peg2 == peg2)
+        if (this.peg2 == pegs.get(1))
             count++;
-        if (this.peg3 == peg3)
+        if (this.peg3 == pegs.get(2))
             count++;
-        if (this.peg4 == peg4)
+        if (this.peg4 == pegs.get(3))
             count++;
         return count;
     }
 
-    private int calculateNumberOfPegsWithSameColor(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
+    private int calculateNumberOfPegsWithSameColor(List<Peg> pegs) {
         int count = 0;
 
         for (Peg peg : Peg.values()) {
@@ -68,17 +68,10 @@ public class Board {
             if (this.peg4 == peg) {
                 codeCount++;
             }
-            if (peg1 == peg) {
-                guessCount++;
-            }
-            if (peg2 == peg) {
-                guessCount++;
-            }
-            if (peg3 == peg) {
-                guessCount++;
-            }
-            if (peg4 == peg) {
-                guessCount++;
+            for (int i = 0; i < pegs.size(); i++) {
+                if (pegs.get(i) == peg) {
+                    guessCount++;
+                }
             }
             if (codeCount == guessCount) {
                 count += codeCount;
