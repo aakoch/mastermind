@@ -1,5 +1,8 @@
 package com.adamkoch.mastermind;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.*;
 
 /**
@@ -9,16 +12,18 @@ import java.util.*;
  * @since 1.0.0
  */
 public class Board {
-    private final Peg peg1;
-    private final Peg peg2;
-    private final Peg peg3;
-    private final Peg peg4;
+    private static final Logger LOGGER = LogManager.getLogger(Board.class);
 
+    private final List<Peg> list;
+
+    @Deprecated
     public Board(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
-        this.peg1 = peg1;
-        this.peg2 = peg2;
-        this.peg3 = peg3;
-        this.peg4 = peg4;
+        this(Arrays.asList(peg1, peg2, peg3, peg4));
+    }
+
+    public Board(List<Peg> list) {
+        this.list = Collections.unmodifiableList(list);
+        LOGGER.debug("Creating board with " + list);
     }
 
     public Indicator[] guess(List<Peg> pegs) {
@@ -33,51 +38,15 @@ public class Board {
         for (int i = 0; i < numberOfWhitePegs; i++) {
             results.add(Indicator.CORRECT_COLOR);
         }
-        Indicator[] arr = new Indicator[4];
+        Indicator[] arr = new Indicator[results.size()];
         return results.toArray(arr);
     }
 
     private int calculateNumberOfPegsInCorrectPlace(List<Peg> pegs) {
-        int count = 0;
-        if (this.peg1 == pegs.get(0))
-            count++;
-        if (this.peg2 == pegs.get(1))
-            count++;
-        if (this.peg3 == pegs.get(2))
-            count++;
-        if (this.peg4 == pegs.get(3))
-            count++;
-        return count;
+        return PegCalculator.calculateSameColorAndSamePlace(pegs, list);
     }
 
     private int calculateNumberOfPegsWithSameColor(List<Peg> pegs) {
-        int count = 0;
-
-        for (Peg peg : Peg.values()) {
-            int codeCount = 0;
-            int guessCount = 0;
-            if (this.peg1 == peg) {
-                codeCount++;
-            }
-            if (this.peg2 == peg) {
-                codeCount++;
-            }
-            if (this.peg3 == peg) {
-                codeCount++;
-            }
-            if (this.peg4 == peg) {
-                codeCount++;
-            }
-            for (int i = 0; i < pegs.size(); i++) {
-                if (pegs.get(i) == peg) {
-                    guessCount++;
-                }
-            }
-            if (codeCount == guessCount) {
-                count += codeCount;
-            }
-        }
-
-        return count;
+        return PegCalculator.calculateSameColor(pegs, list);
     }
 }

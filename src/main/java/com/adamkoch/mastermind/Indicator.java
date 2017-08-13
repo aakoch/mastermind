@@ -7,6 +7,18 @@ package com.adamkoch.mastermind;
  * @since 1.0.0
  */
 public enum Indicator {
-    CORRECT_COLOR,
-    CORRECT_COLOR_AND_PLACEMENT;
+    CORRECT_COLOR("white"),
+    CORRECT_COLOR_AND_PLACEMENT("red");
+
+    private final String description;
+
+    Indicator(String description) {
+
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }
