@@ -1,5 +1,7 @@
 package com.adamkoch.mastermind;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -18,5 +20,11 @@ public class RandomUtils {
 
     public static <T> T getRandom(List<T> list) {
         return list.get(RANDOM.nextInt(list.size()));
+    }
+
+    public static <T> List<T> getRandom(List<T> list, int numberOfElements) {
+        List<T> randomizedList = new ArrayList<>(list);
+        Collections.shuffle(randomizedList);
+        return randomizedList.subList(0, numberOfElements);
     }
 }

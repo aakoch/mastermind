@@ -1,8 +1,14 @@
 package com.adamkoch.mastermind;
 
+import com.google.common.collect.Streams;
+import sun.management.resources.agent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>Created by aakoch on 2017-08-10.</p>
@@ -12,33 +18,124 @@ import java.util.List;
  */
 public class ComboMaker {
 
+    public static <T> Stream<List<T>> initialCombosStream(List<T> list, int size) {
+
+//        final Stream<List<T>> lists;
+        if (size == list.size()) {
+//            return list.stream().map(item -> {
+//                List<T> newList = new ArrayList<>();
+//                newList.add(item);
+//                return newList;
+//            });
+            return Stream.of(list);
+        }
+        else {
+            Stream<List<T>> lists = null;
+
+            Stream<List<T>> sublist = initialCombosStream(list, size - 1);
+
+//            return sublist.map(list1 -> {
+//                List<T> newList = new ArrayList<>();
+//                for (T item : list) {
+//                    newList.add(item);
+//                    newList.addAll(list1);
+//                }
+//                return newList;
+//            });
+
+            return sublist.map(list1 -> {
+                List<T> newList = new ArrayList<>();
+                for (T item : list) {
+                    list1.add(0, item);
+                    newList.addAll(list1);
+                }
+                return newList;
+            });
+
+
+//                lists = Streams.concat(Stream.of(Arrays.asList(item)), sublist);
+
+//            list.forEach(item -> {
+//                sublist.forEach(sublistList -> {
+//                    lists = Stream.concat();
+//                });
+//            });
+
+//            return lists;
+
+//            sublist.stream().flatMap(list1 -> list1.stream()).map(a -> {
+//
+//                List<T> newList = new ArrayList<>();
+//                newList.add(item);
+//                newList.addAll(sublistList);
+//                return newList;
+//            });
+//
+//            final Stream<Stream<List<T>>> streamStream1 = list.stream().map(item -> {
+//
+//                return sublist.stream().map(sublistList -> {
+//
+//                    List<T> newList = new ArrayList<>();
+//                    newList.add(item);
+//                    newList.addAll(sublistList);
+//                    return newList;
+//                });
+//
+//            });
+//
+//            final Stream<Stream<List<T>>> streamStream = list.stream().map(item -> {
+//
+//                final Stream<List<T>> listStream = sublist.stream().map(sublistList -> {
+//                    List<T> newList = new ArrayList<>();
+//                    newList.add(item);
+//                    newList.addAll(sublistList);
+//                    return newList;
+//                });
+//                return listStream;
+//            });
+//
+//
+//
+//            list.stream().forEach(item -> {
+//                sublist.stream().forEach(sublistList -> {
+//                    lists.add(Streams.concat(Stream.of(item), sublistList.stream()));
+//                });
+//            });
+
+        }
+
+//        return lists;
+    }
+
     public static <T> List<List<T>> initialCombos(List<T> list, int size) {
 
-        List<List<T>> lists = new ArrayList<>();
         if (size == 1) {
-            for (T item : list) {
-                List<T> newList = new ArrayList<>();
-                newList.add(item);
-                lists.add(newList);
-            }
+//            list.forEach(item -> {
+////                List<T> newList = new ArrayList<>();
+////                newList.add(item);
+////                lists.add(newList);
+//                lists.add(Arrays.asList(item));
+//            });
+            return list.stream().map(Arrays::asList).collect(Collectors.toList());
         }
         else {
 
+            List<List<T>> lists = new ArrayList<>();
+
             List<List<T>> sublist = initialCombos(list, size - 1);
-
-            for (T item : list) {
-
-                for (List<T> sublistList : sublist) {
+            list.forEach(item -> {
+                sublist.forEach(sublistList -> {
                     List<T> newList = new ArrayList<>();
                     newList.add(item);
                     newList.addAll(sublistList);
 
                     lists.add(newList);
-                }
-            }
+                });
+            });
+
+            return lists;
         }
 
-        return lists;
     }
 
     private static <T> List<List<T>> combos(List<T> list) {

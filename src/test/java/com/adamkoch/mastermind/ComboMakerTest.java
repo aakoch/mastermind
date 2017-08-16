@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,6 +58,16 @@ class ComboMakerTest {
         assertEquals(Peg.WHITE, combinations.get(0).get(2));
     }
 
+//    @Test
+//    public void test_initial_1_stream() {
+//
+//        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE), 3).collect
+//                (Collectors.toList());
+//        assertEquals(Peg.WHITE, combinations.get(0).get(0));
+//        assertEquals(Peg.WHITE, combinations.get(0).get(1));
+//        assertEquals(Peg.WHITE, combinations.get(0).get(2));
+//    }
+
     @Test
     public void test_initial_2() {
 
@@ -93,10 +105,53 @@ class ComboMakerTest {
         assertEquals(Peg.BLUE, combinations.get(7).get(2));
     }
 
+//    @Test
+//    public void test_initial_2_stream() {
+//
+//        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE, Peg.BLUE), 3).collect(
+//                Collectors.toList());
+//        final List<Peg> pegs1 = combinations.get(0);
+//        assertEquals(Peg.WHITE, pegs1.get(0));
+//        assertEquals(Peg.WHITE, pegs1.get(1));
+//        assertEquals(Peg.WHITE, pegs1.get(2));
+//
+//        assertEquals(Peg.WHITE, combinations.get(1).get(0));
+//        assertEquals(Peg.WHITE, combinations.get(1).get(1));
+//        assertEquals(Peg.BLUE, combinations.get(1).get(2));
+//
+//        assertEquals(Peg.WHITE, combinations.get(2).get(0));
+//        assertEquals(Peg.BLUE, combinations.get(2).get(1));
+//        assertEquals(Peg.WHITE, combinations.get(2).get(2));
+//
+//        assertEquals(Peg.WHITE, combinations.get(3).get(0));
+//        assertEquals(Peg.BLUE, combinations.get(3).get(1));
+//        assertEquals(Peg.BLUE, combinations.get(3).get(2));
+//
+//        assertEquals(Peg.BLUE, combinations.get(4).get(0));
+//        assertEquals(Peg.WHITE, combinations.get(4).get(1));
+//        assertEquals(Peg.WHITE, combinations.get(4).get(2));
+//
+//        assertEquals(Peg.BLUE, combinations.get(5).get(0));
+//        assertEquals(Peg.WHITE, combinations.get(5).get(1));
+//        assertEquals(Peg.BLUE, combinations.get(5).get(2));
+//
+//        assertEquals(Peg.BLUE, combinations.get(6).get(0));
+//        assertEquals(Peg.BLUE, combinations.get(6).get(1));
+//        assertEquals(Peg.WHITE, combinations.get(6).get(2));
+//
+//        assertEquals(Peg.BLUE, combinations.get(7).get(0));
+//        assertEquals(Peg.BLUE, combinations.get(7).get(1));
+//        assertEquals(Peg.BLUE, combinations.get(7).get(2));
+//    }
+
     @Test
     public void test_initial_3() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombos(Arrays.asList(Peg.WHITE, Peg.BLUE, Peg.RED), 4);
+        Stream<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE, Peg.BLUE),
+                2);
+//        combinations.forEach(System.out::println);
+        final List<List<Peg>> collect = combinations.collect(Collectors.toList());
+
     }
 
 }

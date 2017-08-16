@@ -7,5 +7,5 @@ package com.adamkoch.mastermind;
  * @since 1.0.0
  */
 public enum Peg {
-    BLUE, RED, ORANGE, YELLOW, BLACK, A, B, C, WHITE
+    BLUE, RED, ORANGE, YELLOW, BLACK, PINK, GRAY, PEACH, TEAL, WHITE
 }

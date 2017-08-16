@@ -14,11 +14,11 @@ import java.util.*;
 public class Game {
 
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
-    public static final List<Peg> AVAILABLE_COLORS = Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg.ORANGE, Peg
-            .YELLOW, Peg.BLACK, Peg.A, Peg.B, Peg.C);
+    public static final List<Peg> AVAILABLE_COLORS = RandomUtils.getRandom(Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg
+            .ORANGE, Peg.YELLOW, Peg.BLACK, Peg.PINK, Peg.GRAY, Peg.TEAL), 3);
     private final Board board;
     private final Player player;
-    public static final int BOARD_SIZE = 7;
+    public static final int BOARD_SIZE = 4;
     public static final List<List<Peg>> COMBINATIONS = ComboMaker.initialCombos(AVAILABLE_COLORS, BOARD_SIZE);
     public static final int MAX_NUMBER_OF_TURNS = 10;
 
