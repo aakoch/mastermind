@@ -20,109 +20,38 @@ public class ComboMaker {
 
     public static <T> Stream<List<T>> initialCombosStream(List<T> list, int size) {
 
-//        final Stream<List<T>> lists;
-        if (size == list.size()) {
-//            return list.stream().map(item -> {
-//                List<T> newList = new ArrayList<>();
-//                newList.add(item);
-//                return newList;
-//            });
-            return Stream.of(list);
+        if (size == 1) {
+            return list.stream().map(Arrays::asList);
         }
         else {
-            Stream<List<T>> lists = null;
+            List<List<T>> sublist = initialCombos(list, size - 1);
 
-            Stream<List<T>> sublist = initialCombosStream(list, size - 1);
+            List<List<T>> lists = new ArrayList<>();
 
-//            return sublist.map(list1 -> {
-//                List<T> newList = new ArrayList<>();
-//                for (T item : list) {
-//                    newList.add(item);
-//                    newList.addAll(list1);
-//                }
-//                return newList;
-//            });
+            list.forEach(item -> {
+                sublist.forEach(sublistList -> {
+                    List<T> newList = new ArrayList<>();
+                    newList.add(item);
+                    newList.addAll(sublistList);
 
-            return sublist.map(list1 -> {
-                List<T> newList = new ArrayList<>();
-                for (T item : list) {
-                    list1.add(0, item);
-                    newList.addAll(list1);
-                }
-                return newList;
+                    lists.add(newList);
+                });
             });
 
-
-//                lists = Streams.concat(Stream.of(Arrays.asList(item)), sublist);
-
-//            list.forEach(item -> {
-//                sublist.forEach(sublistList -> {
-//                    lists = Stream.concat();
-//                });
-//            });
-
-//            return lists;
-
-//            sublist.stream().flatMap(list1 -> list1.stream()).map(a -> {
-//
-//                List<T> newList = new ArrayList<>();
-//                newList.add(item);
-//                newList.addAll(sublistList);
-//                return newList;
-//            });
-//
-//            final Stream<Stream<List<T>>> streamStream1 = list.stream().map(item -> {
-//
-//                return sublist.stream().map(sublistList -> {
-//
-//                    List<T> newList = new ArrayList<>();
-//                    newList.add(item);
-//                    newList.addAll(sublistList);
-//                    return newList;
-//                });
-//
-//            });
-//
-//            final Stream<Stream<List<T>>> streamStream = list.stream().map(item -> {
-//
-//                final Stream<List<T>> listStream = sublist.stream().map(sublistList -> {
-//                    List<T> newList = new ArrayList<>();
-//                    newList.add(item);
-//                    newList.addAll(sublistList);
-//                    return newList;
-//                });
-//                return listStream;
-//            });
-//
-//
-//
-//            list.stream().forEach(item -> {
-//                sublist.stream().forEach(sublistList -> {
-//                    lists.add(Streams.concat(Stream.of(item), sublistList.stream()));
-//                });
-//            });
-
+            return lists.stream();
         }
-
-//        return lists;
     }
 
     public static <T> List<List<T>> initialCombos(List<T> list, int size) {
 
         if (size == 1) {
-//            list.forEach(item -> {
-////                List<T> newList = new ArrayList<>();
-////                newList.add(item);
-////                lists.add(newList);
-//                lists.add(Arrays.asList(item));
-//            });
             return list.stream().map(Arrays::asList).collect(Collectors.toList());
         }
         else {
+            List<List<T>> sublist = initialCombos(list, size - 1);
 
             List<List<T>> lists = new ArrayList<>();
 
-            List<List<T>> sublist = initialCombos(list, size - 1);
             list.forEach(item -> {
                 sublist.forEach(sublistList -> {
                     List<T> newList = new ArrayList<>();
