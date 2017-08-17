@@ -24,21 +24,14 @@ public class ComboMaker {
             return list.stream().map(Arrays::asList);
         }
         else {
-            List<List<T>> sublist = initialCombos(list, size - 1);
 
-            List<List<T>> lists = new ArrayList<>();
+            return list.stream().flatMap(item -> initialCombosStream(list, size - 1).map(sublistList -> {
+                List<T> newList = new ArrayList<>();
+                newList.add(item);
+                newList.addAll(sublistList);
 
-            list.forEach(item -> {
-                sublist.forEach(sublistList -> {
-                    List<T> newList = new ArrayList<>();
-                    newList.add(item);
-                    newList.addAll(sublistList);
-
-                    lists.add(newList);
-                });
-            });
-
-            return lists.stream();
+                return newList;
+            }));
         }
     }
 
