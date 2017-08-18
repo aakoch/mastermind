@@ -1,3 +1,20 @@
+/*
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                     Version 2, December 2004
+ *
+ *  Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ *
+ *  Everyone is permitted to copy and distribute verbatim or modified
+ *  copies of this license document, and changing it is allowed as long
+ *  as the name is changed.
+ *
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ *   0. You just DO WHAT THE FUCK YOU WANT TO.
+ *
+ */
+
 package com.adamkoch.mastermind;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +37,6 @@ public class Board {
 
     private final List<Peg> list;
     private ConcurrentHashMap<List<Peg>, Indicator[]> previousGuessAndResult;
-    private List<Peg> previousCombination;
 
     @Deprecated
     public Board(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
@@ -48,7 +64,6 @@ public class Board {
         Indicator[] arr = new Indicator[results.size()];
         previousGuessAndResult.put(pegs, arr);
         final Indicator[] indicators = results.toArray(arr);
-//        previousCombination = pegs;
         return indicators;
     }
 
