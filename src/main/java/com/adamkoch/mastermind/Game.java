@@ -3,8 +3,9 @@ package com.adamkoch.mastermind;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>Created by aakoch on 2017-08-09.</p>
@@ -17,7 +18,7 @@ public class Game {
     public static final List<Peg> AVAILABLE_COLORS = //RandomUtils.getRandom(
             Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg.ORANGE, Peg.YELLOW, Peg.BLACK, Peg.PINK, Peg.GRAY,
                     Peg.TEAL);//, 3);
-    public static final int BOARD_SIZE = 7;
+    public static final int BOARD_SIZE = 8;
     public static final int MAX_NUMBER_OF_TURNS = 10;
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
     private final Board board;
@@ -35,12 +36,17 @@ public class Game {
         int totalNumberOfTurns = 0;
         int maxNumberOfTurns = 0;
         int minNumberOfTurns = Integer.MAX_VALUE;
-        final int runs = 1;
-        final int count = (int) Math.pow(AVAILABLE_COLORS.size(), BOARD_SIZE);
-        LOGGER.info("combinations = " + count);
+        final int runs = 2;
+        final int numberOfCombinations = (int) Math.pow(AVAILABLE_COLORS.size(), BOARD_SIZE);
+        final NumberFormat numberInstance = NumberFormat.getNumberInstance();
+        numberInstance.setGroupingUsed(true);
+        LOGGER.info("combinations = " + numberInstance.format(numberOfCombinations));
         for (int i = 0; i < runs; i++) {
+            long startBoardCreationTime = System.currentTimeMillis();
             Board board = new Board(RandomUtils.getRandom(ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE),
-                    count));
+                    numberOfCombinations));
+            LOGGER.debug("It took " + ((double) (System.currentTimeMillis() - startBoardCreationTime) / 1000d) +
+                            " seconds just to pick the board colors");
             Player player = new Player();
             Game game = new Game(board, player);
             final int numberOfTurns = game.play();
@@ -58,39 +64,24 @@ public class Game {
     }
 
     private int play() {
-        int numberOfTurns = 0;
-        int skipping = 0;
+        final int[] numberOfGuesses = {0};
 
-        Stream<List<Peg>> combinations = ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE).parallel();
+        ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE)
+                .filter(board::matchesPreviousResult)
+                .map(winningGuess -> {
+                    LOGGER.debug("Guessing " + winningGuess);
+                    final Indicator[] indicators = board.guess(winningGuess);
+                    LOGGER.debug("Resulted in " + Arrays.toString(indicators));
+                    numberOfGuesses[0]++;
+                    return indicators;
+                })
+                .filter(indicators -> indicators.length == BOARD_SIZE
+                        && Arrays.stream(indicators).allMatch(indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT))
+                .count();
 
+        LOGGER.info("Won after " + numberOfGuesses[0] + " guesses!");
 
-        List<Peg> winningGuess = null;
-        final Iterator<List<Peg>> iterator = combinations.iterator();
-        while (iterator.hasNext()) {
-            winningGuess = iterator.next();
-            if (board.matchesPreviousResult(winningGuess)) {
-                LOGGER.debug("skipping = " + skipping);
-                skipping = 0;
-                numberOfTurns++;
-                LOGGER.debug("guessing = " + winningGuess);
-                final Indicator[] indicators = board.guess(winningGuess);
-                LOGGER.debug("indicators = " + Arrays.toString(indicators));
-                if (indicators.length == BOARD_SIZE && Arrays.stream(indicators).allMatch(indicator -> indicator ==
-                        Indicator.CORRECT_COLOR_AND_PLACEMENT)) {
-                    break;
-                }
-            }
-            else {
-                skipping++;
-            }
-        }
-
-
-        LOGGER.debug("winningGuess = " + winningGuess);
-
-        LOGGER.info("Won after " + numberOfTurns + " guesses!");
-
-        return numberOfTurns;
+        return numberOfGuesses[0];
     }
 
 }
