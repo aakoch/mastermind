@@ -79,11 +79,5 @@ class BoardTest {
 
     public static void assertEquals(Indicator[] expected, Indicator[] actual) {
         Assertions.assertEquals(Arrays.toString(expected), Arrays.toString(actual));
-//        Assertions.assertEquals(expected.length, actual.length);
-//
-//        for (int index = 0; index < expected.length; index++) {
-//            Assertions.assertEquals(expected[index], actual[index],
-//                    "Expected " + expected[index] + " in place " + index + " but got " + actual[index]);
-//        }
     }
 }
