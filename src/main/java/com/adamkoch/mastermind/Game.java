@@ -22,11 +22,9 @@ public class Game {
     public static final int MAX_NUMBER_OF_TURNS = 10;
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
     private final Board board;
-    private final Player player;
 
-    public Game(Board board, Player player) {
+    public Game(Board board) {
         this.board = board;
-        this.player = player;
     }
 
     public static void main(String[] args) {
@@ -47,8 +45,7 @@ public class Game {
                     numberOfCombinations));
             LOGGER.debug("It took " + ((double) (System.currentTimeMillis() - startBoardCreationTime) / 1000d) +
                             " seconds just to pick the board colors");
-            Player player = new Player();
-            Game game = new Game(board, player);
+            Game game = new Game(board);
             final int numberOfTurns = game.play();
             maxNumberOfTurns = Math.max(maxNumberOfTurns, numberOfTurns);
             minNumberOfTurns = Math.min(minNumberOfTurns, numberOfTurns);
