@@ -1,7 +1,7 @@
-h1. Mastermind
-h2. Purpose
+# Mastermind
+## Purpose
 Practicing Java 8 skillz.
 
-h2. Run
+## Run
 Run Game.java
 
