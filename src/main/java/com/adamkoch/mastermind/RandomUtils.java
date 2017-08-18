@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * <p>Created by aakoch on 2017-07-31.</p>
@@ -26,5 +27,9 @@ public class RandomUtils {
         List<T> randomizedList = new ArrayList<>(list);
         Collections.shuffle(randomizedList);
         return randomizedList.subList(0, numberOfElements);
+    }
+
+    public static <T> List<T> getRandom(Stream<List<T>> listStream, int bound) {
+        return listStream.unordered().skip(RANDOM.nextInt(bound)).findFirst().get();
     }
 }

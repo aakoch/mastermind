@@ -3,9 +3,7 @@ package com.adamkoch.mastermind;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>Created by aakoch on 2017-08-12.</p>
@@ -26,8 +24,10 @@ public class Deductions {
             int numberOfRedPegs = (int) Arrays.stream(listEntry.getValue()).filter(indicator -> indicator == Indicator
                     .CORRECT_COLOR_AND_PLACEMENT).count();
 
-            int numberSameColor = PegCalculator.calculateSameColor(pegs, listEntry.getKey());
-            int numberSameColorAndPlace = PegCalculator.calculateSameColorAndSamePlace(pegs, listEntry.getKey());
+            int numberSameColor = PegCalculator.calculateSameColor(pegs, listEntry
+                    .getKey() == null ? new ArrayList<>() : listEntry.getKey());
+            int numberSameColorAndPlace = PegCalculator.calculateSameColorAndSamePlace(pegs, listEntry
+                    .getKey() == null ? new ArrayList<>() : listEntry.getKey());
 
             if (numberOfRedPegs == numberSameColorAndPlace && Math.abs(numberSameColorAndPlace - numberSameColor) ==
                     numberOfWhitePegs) {
