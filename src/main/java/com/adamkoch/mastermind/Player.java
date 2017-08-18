@@ -1,7 +1,5 @@
 package com.adamkoch.mastermind;
 
-import com.google.common.collect.Iterables;
-
 import java.util.List;
 import java.util.Map;
 

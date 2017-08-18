@@ -13,52 +13,52 @@ import java.util.Arrays;
  */
 class BoardTest {
 
-//    @Test
-//    public void test1() {
-//        Board board = new Board(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE);
-//        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE));
-//
-//        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator
-//                        .CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator
-//                        .CORRECT_COLOR_AND_PLACEMENT},
-//                correctIndicators);
-//    }
-//
-//    @Test
-//    public void test2() {
-//        Board board = new Board(Peg.WHITE, Peg.WHITE, Peg.BLUE, Peg.WHITE);
-//        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.BLUE));
-//
-//        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
-//                Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR}, correctIndicators);
-//    }
+    @Test
+    public void test1() {
+        Board board = new Board(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE);
+        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE));
 
-//    @Test
-//    public void test3() {
-//        Board board = new Board(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.WHITE);
-//        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.RED, Peg.BLUE));
-//
-//        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR,
-//                Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR}, correctIndicators);
-//    }
-//
-//    @Test
-//    public void test_real1() {
-//        Board board = new Board(Peg.WHITE, Peg.BLUE, Peg.WHITE, Peg.RED);
-//        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.RED, Peg.RED));
-//
-//        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
-//                Indicator.CORRECT_COLOR}, correctIndicators);
-//    }
+        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator
+                        .CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator
+                        .CORRECT_COLOR_AND_PLACEMENT},
+                correctIndicators);
+    }
 
-//    @Test
-//    public void test_real2() {
-//        Board board = new Board                                (Peg.WHITE, Peg.BLUE, Peg.WHITE, Peg.RED);
-//        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.RED));
-//
-//        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
-//                Indicator.CORRECT_COLOR_AND_PLACEMENT}, correctIndicators);
-//    }
+    @Test
+    public void test2() {
+        Board board = new Board(Peg.WHITE, Peg.WHITE, Peg.BLUE, Peg.WHITE);
+        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.BLUE));
+
+        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
+                Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR}, correctIndicators);
+    }
+
+    @Test
+    public void test3() {
+        Board board = new Board(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.WHITE);
+        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.RED, Peg.BLUE));
+
+        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR,
+                Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR}, correctIndicators);
+    }
+
+    @Test
+    public void test_real1() {
+        Board board = new Board(Peg.WHITE, Peg.BLUE, Peg.WHITE, Peg.RED);
+        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.RED, Peg.RED));
+
+        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
+                Indicator.CORRECT_COLOR}, correctIndicators);
+    }
+
+    @Test
+    public void test_real2() {
+        Board board = new Board                                (Peg.WHITE, Peg.BLUE, Peg.WHITE, Peg.RED);
+        Indicator[] correctIndicators = board.guess(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.RED));
+
+        assertEquals(new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
+                Indicator.CORRECT_COLOR_AND_PLACEMENT}, correctIndicators);
+    }
 
     public static void assertEquals(Indicator[] expected, Indicator[] actual) {
         Assertions.assertEquals(Arrays.toString(expected), Arrays.toString(actual));

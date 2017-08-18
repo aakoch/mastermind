@@ -1,13 +1,8 @@
 package com.adamkoch.mastermind;
 
-import com.google.common.collect.Streams;
-import sun.management.resources.agent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**

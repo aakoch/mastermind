@@ -3,7 +3,10 @@ package com.adamkoch.mastermind;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Created by aakoch on 2017-08-12.</p>
