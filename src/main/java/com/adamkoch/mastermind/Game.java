@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Game {
     public static final List<Peg> AVAILABLE_COLORS = //RandomUtils.getRandom(
             Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg.ORANGE, Peg.YELLOW, Peg.BLACK, Peg.PINK, Peg.GRAY,
                     Peg.TEAL);//, 3);
-    public static final int BOARD_SIZE = 8;
+    public static final int BOARD_SIZE = 7;
     public static final int MAX_NUMBER_OF_TURNS = 10;
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
     private final Board board;
@@ -57,11 +58,7 @@ public class Game {
         numberInstance.setGroupingUsed(true);
         LOGGER.info("combinations = " + numberInstance.format(numberOfCombinations));
         for (int i = 0; i < runs; i++) {
-            long startBoardCreationTime = System.currentTimeMillis();
-            Board board = new Board(RandomUtils.getRandom(ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE),
-                    numberOfCombinations));
-            LOGGER.debug("It took " + ((double) (System.currentTimeMillis() - startBoardCreationTime) / 1000d) +
-                            " seconds just to pick the board colors");
+            Board board = new Board(createAnswer());
             Game game = new Game(board);
             final int numberOfTurns = game.play();
             maxNumberOfTurns = Math.max(maxNumberOfTurns, numberOfTurns);
@@ -77,7 +74,15 @@ public class Game {
                 " took " + ((double) (System.currentTimeMillis() - startTime) / 1000d) + " seconds");
     }
 
-    private int play() {
+    public static List<Peg> createAnswer() {
+        List<Peg> list = new ArrayList<>();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            list.add(RandomUtils.getRandom(AVAILABLE_COLORS));
+        }
+        return list;
+    }
+
+    public int play() {
         final int[] numberOfGuesses = {0};
 
         ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE)
