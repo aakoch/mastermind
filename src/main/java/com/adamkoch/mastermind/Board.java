@@ -68,7 +68,7 @@ public class Board {
     }
 
     private int calculateNumberOfPegsInCorrectPlace(List<Peg> pegs) {
-        return PegCalculator.calculateSameColorAndSamePlace(pegs, list);
+        return PegCalculator.calculateNumberOfEqualObjectsInSamePlace(pegs, list);
     }
 
     private int calculateNumberOfPegsWithSameColor(List<Peg> pegs) {

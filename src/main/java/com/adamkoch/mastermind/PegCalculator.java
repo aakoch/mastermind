@@ -17,8 +17,11 @@
 
 package com.adamkoch.mastermind;
 
+import com.google.common.collect.Streams;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,15 +47,8 @@ public class PegCalculator {
         return count;
     }
 
-    public static int calculateSameColorAndSamePlace(List<Peg> pegs1, List<Peg> pegs2) {
-        int count = 0;
-
-        for (int i = 0; i < pegs1.size(); i++) {
-            if (pegs1.get(i) == pegs2.get(i)) {
-                count++;
-            }
-        }
-
-        return count;
+    public static <T> int calculateNumberOfEqualObjectsInSamePlace(List<T> list1, List<T> list2) {
+        return (int) Streams.zip(list1.stream(), list2.stream(), Objects::equals).filter(Boolean::booleanValue).count();
     }
+
 }

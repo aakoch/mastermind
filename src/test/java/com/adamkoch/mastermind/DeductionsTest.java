@@ -17,6 +17,8 @@
 
 package com.adamkoch.mastermind;
 
+import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -24,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.adamkoch.mastermind.Peg.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -36,7 +40,7 @@ class DeductionsTest {
 
     @Test
     void matchesPreviousResult_2red() {
-        List<Peg> pegs = Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.BLUE, Peg.BLUE);
+        List<Peg> pegs = Arrays.asList(Peg.WHITE, Peg.WHITE, BLUE, BLUE);
         Map<List<Peg>, Indicator[]> map = new HashMap<>();
         map.put(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE), new Indicator[]{
                 Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT
@@ -46,11 +50,82 @@ class DeductionsTest {
 
     @Test
     void matchesPreviousResult_2white() {
-        List<Peg> pegs = Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.BLUE, Peg.BLUE);
+        List<Peg> pegs = Arrays.asList(Peg.WHITE, Peg.WHITE, BLUE, BLUE);
         Map<List<Peg>, Indicator[]> map = new HashMap<>();
-        map.put(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.WHITE), new Indicator[]{
+        map.put(Arrays.asList(RED, RED, Peg.WHITE, Peg.WHITE), new Indicator[]{
                 Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR
         });
+        assertTrue(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    void matchesPreviousResult_1peg_noMatch() {
+        List<Peg> pegs = Arrays.asList(RED);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE), new Indicator[]{
+                Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
+                Indicator.CORRECT_COLOR, Indicator.CORRECT_COLOR
+        });
+
+        assertFalse(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    @Disabled
+    void matchesPreviousResult_1peg_indeterminate_matches() {
+        List<Peg> pegs = Arrays.asList(Peg.RED);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(Peg.WHITE, Peg.WHITE, Peg.WHITE, Peg.WHITE), new Indicator[]{
+                Indicator.CORRECT_COLOR_AND_PLACEMENT, Indicator.CORRECT_COLOR_AND_PLACEMENT,
+                Indicator.CORRECT_COLOR
+        });
+
+        assertTrue(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    @Disabled
+    void matchesPreviousResult_1peg_indeterminate_doesMatch() {
+        List<Peg> pegs = Arrays.asList(BLUE, BLUE, BLUE, RED);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(ORANGE, WHITE, WHITE, BLACK), new Indicator[]{});
+
+        assertTrue(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    @Disabled
+    void matchesPreviousResult_1peg_indeterminate_doesMatch2() {
+        List<Peg> pegs = Arrays.asList(RED);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(BLUE, BLUE, BLUE, BLUE), new Indicator[]{});
+
+        assertTrue(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    @Disabled
+    void matchesPreviousResult_2pegs_indeterminate_doesNotMatch() {
+        List<Peg> pegs = Arrays.asList(RED, BLUE);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(BLUE, BLUE, BLUE, BLUE), new Indicator[]{});
+
+        assertFalse(Deductions.matchesPreviousResult(pegs, map));
+    }
+
+    @Test
+    @Disabled
+    void matchesPreviousResult_2pegs_indeterminate_doesMatch() {
+        List<Peg> pegs = Arrays.asList(BLUE, ORANGE);
+        Map<List<Peg>, Indicator[]> map = new HashMap<>();
+
+        map.put(Arrays.asList(BLUE, BLUE, BLUE, BLUE), new Indicator[]{Indicator.CORRECT_COLOR_AND_PLACEMENT});
+
         assertTrue(Deductions.matchesPreviousResult(pegs, map));
     }
 

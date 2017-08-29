@@ -21,9 +21,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * <p>Created by aakoch on 2017-08-09.</p>
@@ -33,9 +33,8 @@ import java.util.List;
  */
 public class Game {
 
-    public static final List<Peg> AVAILABLE_COLORS = //RandomUtils.getRandom(
-            Arrays.asList(Peg.WHITE, Peg.RED, Peg.BLUE, Peg.ORANGE, Peg.YELLOW, Peg.BLACK, Peg.PINK, Peg.GRAY,
-                    Peg.TEAL);//, 3);
+    public static final List<Peg> AVAILABLE_COLORS = Arrays.asList(Peg.values());
+
     public static final int BOARD_SIZE = 7;
     public static final int MAX_NUMBER_OF_TURNS = 10;
     private static final Logger LOGGER = LogManager.getLogger(Game.class);
@@ -52,13 +51,15 @@ public class Game {
         int totalNumberOfTurns = 0;
         int maxNumberOfTurns = 0;
         int minNumberOfTurns = Integer.MAX_VALUE;
-        final int runs = 2;
+        final int runs = 100;
         final int numberOfCombinations = (int) Math.pow(AVAILABLE_COLORS.size(), BOARD_SIZE);
         final NumberFormat numberInstance = NumberFormat.getNumberInstance();
         numberInstance.setGroupingUsed(true);
         LOGGER.info("combinations = " + numberInstance.format(numberOfCombinations));
         for (int i = 0; i < runs; i++) {
-            Board board = new Board(createAnswer());
+            Board board = new Board(IntStream.range(0, BOARD_SIZE)
+                                             .mapToObj(i1 -> RandomUtils.getRandom(AVAILABLE_COLORS))
+                                             .collect(Collectors.toList()));
             Game game = new Game(board);
             final int numberOfTurns = game.play();
             maxNumberOfTurns = Math.max(maxNumberOfTurns, numberOfTurns);
@@ -74,31 +75,31 @@ public class Game {
                 " took " + ((double) (System.currentTimeMillis() - startTime) / 1000d) + " seconds");
     }
 
-    public static List<Peg> createAnswer() {
-        List<Peg> list = new ArrayList<>();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            list.add(RandomUtils.getRandom(AVAILABLE_COLORS));
-        }
-        return list;
-    }
-
     public int play() {
         final int[] numberOfGuesses = {0};
 
-        ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE)
-                .filter(board::matchesPreviousResult)
-                .map(winningGuess -> {
-                    LOGGER.debug("Guessing " + winningGuess);
-                    final Indicator[] indicators = board.guess(winningGuess);
-                    LOGGER.debug("Resulted in " + Arrays.toString(indicators));
-                    numberOfGuesses[0]++;
-                    return indicators;
-                })
-                .filter(indicators -> indicators.length == BOARD_SIZE
-                        && Arrays.stream(indicators).allMatch(indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT))
-                .count();
+        final Optional<Indicator[]> first = ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE)
+                                                      .filter(board::matchesPreviousResult)
+                                                      .map(guess -> {
+                                                          LOGGER.debug("Guessing " + guess);
+                                                          final Indicator[] indicators = board.guess(guess);
+                                                          LOGGER.debug("Resulted in " + Arrays.toString(indicators));
+                                                          numberOfGuesses[0]++;
+                                                          return indicators;
+                                                      })
+                                                      .filter(indicators -> indicators.length == BOARD_SIZE
+                                                              && Arrays.stream(indicators)
+                                                                       .allMatch(
+                                                                               indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT))
+                                                      .findFirst();
 
-        LOGGER.info("Won after " + numberOfGuesses[0] + " guesses!");
+        if (first.isPresent() && numberOfGuesses[0] <= MAX_NUMBER_OF_TURNS) {
+            LOGGER.info("Won after " + numberOfGuesses[0] + " guesses!");
+        }
+        else {
+
+            LOGGER.info("Lost after " + numberOfGuesses[0] + " guesses!");
+        }
 
         return numberOfGuesses[0];
     }

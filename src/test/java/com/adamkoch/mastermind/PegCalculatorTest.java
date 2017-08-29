@@ -42,13 +42,13 @@ class PegCalculatorTest {
     @Test
     void calculateSameColorAndSamePlace() {
         assertEquals(1,
-                PegCalculator.calculateSameColorAndSamePlace(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.WHITE),
+                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.WHITE),
                         Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
         assertEquals(2,
-                PegCalculator.calculateSameColorAndSamePlace(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
+                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
                         Peg.WHITE)));
         assertEquals(3,
-                PegCalculator.calculateSameColorAndSamePlace(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.WHITE),
+                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.WHITE),
                         Arrays.asList(Peg.RED, Peg.BLUE, Peg.BLUE, Peg.WHITE)));
     }
 

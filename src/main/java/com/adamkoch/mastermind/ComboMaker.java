@@ -20,6 +20,7 @@ package com.adamkoch.mastermind;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -41,10 +42,26 @@ public class ComboMaker {
                 List<T> newList = new ArrayList<>();
                 newList.add(item);
                 newList.addAll(sublistList);
-
                 return newList;
             }));
         }
     }
 
+    public static Stream<List<Peg>> initialCombosStream(List<Peg> list, int size, Board board) {
+        if (size == 1) {
+            return list.stream().map(Arrays::asList).filter(board::matchesPreviousResult);
+        }
+        else {
+
+            return list.stream()
+                       .flatMap(item -> initialCombosStream(list, size - 1, board)
+                            .map(sublistList -> {
+                List<Peg> newList = new ArrayList<>();
+                newList.add(item);
+                newList.addAll(sublistList);
+
+                return newList;
+            })).filter(board::matchesPreviousResult);
+        }
+    }
 }
