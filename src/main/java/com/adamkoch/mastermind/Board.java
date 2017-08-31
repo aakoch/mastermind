@@ -54,17 +54,14 @@ public class Board {
         int numberOfPegsInCorrectPlace = calculateNumberOfPegsInCorrectPlace(pegs);
         int numberOfRedPegs = numberOfPegsInCorrectPlace;
         int numberOfWhitePegs = numberOfPegsWithSameColor - numberOfPegsInCorrectPlace;
-        List<Indicator> results = new ArrayList<Indicator>();
-        for (int i = 0; i < numberOfRedPegs; i++) {
-            results.add(Indicator.CORRECT_COLOR_AND_PLACEMENT);
-        }
-        for (int i = 0; i < numberOfWhitePegs; i++) {
-            results.add(Indicator.CORRECT_COLOR);
-        }
+
+        List<Indicator> results = new ArrayList<>();
+        results.addAll(Collections.nCopies(numberOfRedPegs, Indicator.CORRECT_COLOR_AND_PLACEMENT));
+        results.addAll(Collections.nCopies(numberOfWhitePegs, Indicator.CORRECT_COLOR));
+
         Indicator[] arr = new Indicator[results.size()];
         previousGuessAndResult.put(pegs, arr);
-        final Indicator[] indicators = results.toArray(arr);
-        return indicators;
+        return results.toArray(arr);
     }
 
     private int calculateNumberOfPegsInCorrectPlace(List<Peg> pegs) {
