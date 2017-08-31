@@ -30,7 +30,6 @@ public enum Indicator {
     private final String description;
 
     Indicator(String description) {
-
         this.description = description;
     }
 

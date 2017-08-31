@@ -22,8 +22,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.function.Predicate.isEqual;
 
 /**
  * <p>Created by aakoch on 2017-08-09.</p>
@@ -45,7 +48,6 @@ public class Game {
     }
 
     public static void main(String[] args) {
-
         long startTime = System.currentTimeMillis();
 
         logCombinations();
@@ -62,9 +64,9 @@ public class Game {
         LOGGER.info("maxNumberOfTurns = " + intSummaryStatistics.getMax());
         LOGGER.info("minNumberOfTurns = " + intSummaryStatistics.getMin());
 
-        LOGGER.info(intSummaryStatistics.getCount() + " games with " + AVAILABLE_COLORS.size() + " colors on a board of size "
-                + BOARD_SIZE +
-                " took " + ((double) (System.currentTimeMillis() - startTime) / 1000d) + " seconds");
+        LOGGER.info(
+                intSummaryStatistics.getCount() + " games with " + AVAILABLE_COLORS.size() + " colors on a board of size "
+                        + BOARD_SIZE + " took " + ((double) (System.currentTimeMillis() - startTime) / 1000d) + " seconds");
     }
 
     public static void logCombinations() {
@@ -77,7 +79,7 @@ public class Game {
     public int play() {
         final int[] numberOfGuesses = {0};
 
-        final Optional<Indicator[]> first = ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE)
+        final Optional<Indicator[]> first = ComboMaker.createCombinationStream(AVAILABLE_COLORS, BOARD_SIZE)
                                                       .filter(board::matchesPreviousResult)
                                                       .map(guess -> {
                                                           LOGGER.debug("Guessing " + guess);
@@ -87,18 +89,18 @@ public class Game {
                                                           return indicators;
                                                       })
                                                       .filter(indicators -> indicators.length == BOARD_SIZE
-                                                              && Arrays.stream(indicators)
-                                                                       .allMatch(
-                                                                               indicator -> indicator == Indicator.CORRECT_COLOR_AND_PLACEMENT))
+                                                              && Arrays.stream(indicators).allMatch(isEqual(Indicator.CORRECT_COLOR_AND_PLACEMENT)))
                                                       .findFirst();
 
+        final String outcome;
         if (first.isPresent() && numberOfGuesses[0] <= MAX_NUMBER_OF_TURNS) {
-            LOGGER.info("Won after " + numberOfGuesses[0] + " guesses!");
+            outcome = "Won";
         }
         else {
-
-            LOGGER.info("Lost after " + numberOfGuesses[0] + " guesses!");
+            outcome = "Lost";
         }
+
+        LOGGER.info("{} after {} guesses!", outcome, numberOfGuesses[0]);
 
         return numberOfGuesses[0];
     }

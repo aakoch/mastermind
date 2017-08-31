@@ -33,28 +33,30 @@ class PegCalculatorTest {
 
     @Test
     void calculateSameColor() {
-        assertEquals(2, PegCalculator.calculateSameColor(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
+        PegCalculator pegCalculator =  new PegCalculator();
+        assertEquals(2, pegCalculator.calculateSameColor(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
                 Peg.WHITE)));
-        assertEquals(3, PegCalculator.calculateSameColor(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.BLUE),
+        assertEquals(3, pegCalculator.calculateSameColor(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.BLUE),
                 Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
-        assertEquals(1, PegCalculator.calculateSameColor(Arrays.asList(Peg.RED),
+        assertEquals(1, pegCalculator.calculateSameColor(Arrays.asList(Peg.RED),
                 Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
-        assertEquals(1, PegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE),
+        assertEquals(1, pegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE),
                 Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
-        assertEquals(2, PegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE, Peg.BLUE),
+        assertEquals(2, pegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE, Peg.BLUE),
                 Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
     }
 
     @Test
     void calculateSameColorAndSamePlace() {
+        PegCalculator pegCalculator =  new PegCalculator();
         assertEquals(1,
-                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.WHITE),
+                pegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.WHITE),
                         Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
         assertEquals(2,
-                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
+                pegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.WHITE), Arrays.asList(Peg.RED,
                         Peg.WHITE)));
         assertEquals(3,
-                PegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.WHITE),
+                pegCalculator.calculateNumberOfEqualObjectsInSamePlace(Arrays.asList(Peg.RED, Peg.BLUE, Peg.WHITE, Peg.WHITE),
                         Arrays.asList(Peg.RED, Peg.BLUE, Peg.BLUE, Peg.WHITE)));
     }
 

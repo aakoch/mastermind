@@ -37,6 +37,7 @@ public class Board {
 
     private final List<Peg> list;
     private ConcurrentHashMap<List<Peg>, Indicator[]> previousGuessAndResult;
+    private PegCalculator pegCalculator;
 
     @Deprecated
     public Board(Peg peg1, Peg peg2, Peg peg3, Peg peg4) {
@@ -47,6 +48,7 @@ public class Board {
         this.list = Collections.unmodifiableList(list);
         LOGGER.debug("Creating board with " + list);
         previousGuessAndResult = new ConcurrentHashMap<>();
+        pegCalculator = new PegCalculator();
     }
 
     public Indicator[] guess(List<Peg> pegs) {
@@ -65,11 +67,11 @@ public class Board {
     }
 
     private int calculateNumberOfPegsInCorrectPlace(List<Peg> pegs) {
-        return PegCalculator.calculateNumberOfEqualObjectsInSamePlace(pegs, list);
+        return pegCalculator.calculateNumberOfEqualObjectsInSamePlace(pegs, list);
     }
 
     private int calculateNumberOfPegsWithSameColor(List<Peg> pegs) {
-        return PegCalculator.calculateSameColor(pegs, list);
+        return pegCalculator.calculateSameColor(pegs, list);
     }
 
     public boolean matchesPreviousResult(List<Peg> combination) {

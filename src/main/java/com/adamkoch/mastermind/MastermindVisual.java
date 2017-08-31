@@ -25,15 +25,12 @@ package com.adamkoch.mastermind;
  */
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -132,7 +129,7 @@ public class MastermindVisual extends Application {
         LOGGER.info("combinations = " + numberInstance.format(numberOfCombinations));
         for (int i = 0; i < runs; i++) {
             long startBoardCreationTime = System.currentTimeMillis();
-            Board board = new Board(RandomUtils.getRandom(ComboMaker.initialCombosStream(AVAILABLE_COLORS, BOARD_SIZE),
+            Board board = new Board(RandomUtils.getRandom(ComboMaker.createCombinationStream(AVAILABLE_COLORS, BOARD_SIZE),
                     numberOfCombinations));
             LOGGER.debug("It took " + ((double) (System.currentTimeMillis() - startBoardCreationTime) / 1000d) +
                     " seconds just to pick the board colors");

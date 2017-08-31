@@ -20,7 +20,6 @@ package com.adamkoch.mastermind;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -31,37 +30,20 @@ import java.util.stream.Stream;
  */
 public class ComboMaker {
 
-    public static <T> Stream<List<T>> initialCombosStream(List<T> list, int size) {
-
+    public static <T> Stream<List<T>> createCombinationStream(List<T> list, int size) {
+        final Stream<T> listStream = list.stream();
+        final Stream<List<T>> returnStream;
         if (size == 1) {
-            return list.stream().map(Arrays::asList);
+            returnStream = listStream.map(Arrays::asList);
         }
         else {
-
-            return list.stream().flatMap(item -> initialCombosStream(list, size - 1).map(sublistList -> {
+            returnStream = listStream.flatMap(item -> createCombinationStream(list, size - 1).map(sublistList -> {
                 List<T> newList = new ArrayList<>();
                 newList.add(item);
                 newList.addAll(sublistList);
                 return newList;
             }));
         }
-    }
-
-    public static Stream<List<Peg>> initialCombosStream(List<Peg> list, int size, Board board) {
-        if (size == 1) {
-            return list.stream().map(Arrays::asList).filter(board::matchesPreviousResult);
-        }
-        else {
-
-            return list.stream()
-                       .flatMap(item -> initialCombosStream(list, size - 1, board)
-                            .map(sublistList -> {
-                List<Peg> newList = new ArrayList<>();
-                newList.add(item);
-                newList.addAll(sublistList);
-
-                return newList;
-            })).filter(board::matchesPreviousResult);
-        }
+        return returnStream;
     }
 }

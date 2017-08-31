@@ -36,7 +36,7 @@ class ComboMakerTest {
     @Test
     public void test_initial_1_1_stream() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE), 1).collect
+        List<List<Peg>> combinations = ComboMaker.createCombinationStream(Arrays.asList(Peg.WHITE), 1).collect
                 (Collectors.toList());
         assertEquals(1, combinations.size());
         assertEquals(1, combinations.get(0).size());
@@ -46,7 +46,7 @@ class ComboMakerTest {
     @Test
     public void test_initial_1_2_stream() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE), 2).collect
+        List<List<Peg>> combinations = ComboMaker.createCombinationStream(Arrays.asList(Peg.WHITE), 2).collect
                 (Collectors.toList());
         assertEquals(1, combinations.size());
         assertEquals(2, combinations.get(0).size());
@@ -57,7 +57,7 @@ class ComboMakerTest {
     @Test
     public void test_initial_1_3_stream() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE), 3).collect
+        List<List<Peg>> combinations = ComboMaker.createCombinationStream(Arrays.asList(Peg.WHITE), 3).collect
                 (Collectors.toList());
         assertEquals(1, combinations.size());
         assertEquals(3, combinations.get(0).size());
@@ -69,7 +69,7 @@ class ComboMakerTest {
     @Test
     public void test_initial_2_1_stream() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE, Peg.BLUE), 1).collect(
+        List<List<Peg>> combinations = ComboMaker.createCombinationStream(Arrays.asList(Peg.WHITE, Peg.BLUE), 1).collect(
                 Collectors.toList());
         assertEquals(2, combinations.size());
         assertEquals(1, combinations.get(0).size());
@@ -80,7 +80,7 @@ class ComboMakerTest {
     @Test
     public void test_initial_2_2_stream() {
 
-        List<List<Peg>> combinations = ComboMaker.initialCombosStream(Arrays.asList(Peg.WHITE, Peg.BLUE), 2).collect(
+        List<List<Peg>> combinations = ComboMaker.createCombinationStream(Arrays.asList(Peg.WHITE, Peg.BLUE), 2).collect(
                 Collectors.toList());
         assertEquals(4, combinations.size());
         assertEquals(2, combinations.get(0).size());
