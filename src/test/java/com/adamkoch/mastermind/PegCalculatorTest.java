@@ -37,6 +37,12 @@ class PegCalculatorTest {
                 Peg.WHITE)));
         assertEquals(3, PegCalculator.calculateSameColor(Arrays.asList(Peg.RED, Peg.RED, Peg.WHITE, Peg.BLUE),
                 Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
+        assertEquals(1, PegCalculator.calculateSameColor(Arrays.asList(Peg.RED),
+                Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
+        assertEquals(1, PegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE),
+                Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
+        assertEquals(2, PegCalculator.calculateSameColor(Arrays.asList(Peg.BLUE, Peg.BLUE),
+                Arrays.asList(Peg.RED, Peg.WHITE, Peg.BLUE, Peg.BLUE)));
     }
 
     @Test

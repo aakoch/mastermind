@@ -32,17 +32,26 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 public class PegCalculator {
+
     public static int calculateSameColor(List<Peg> pegs1, List<Peg> pegs2) {
-        Map<Peg, Long> map1 = pegs1.stream()
-                                   .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        Map<Peg, Long> map2 = pegs2.stream()
-                                   .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        return map1.keySet().stream().filter(map2::containsKey).mapToInt(peg -> Math.min(map1.get(peg).intValue(), map2.get
-                (peg).intValue())).sum();
+
+        final Map<Peg, Integer> map1 = countByPeg(pegs1);
+        final Map<Peg, Integer> map2 = countByPeg(pegs2);
+
+        return map1.keySet()
+                   .stream()
+                   .filter(map2::containsKey)
+                   .mapToInt(peg -> Math.min(map1.get(peg), map2.get(peg)))
+                   .sum();
+    }
+
+    public static Map<Peg, Integer> countByPeg(List<Peg> pegs) {
+        return pegs.stream()
+                    .collect(Collectors.groupingBy(Function.identity(),
+                            Collectors.reducing(0, e -> 1, Integer::sum)));
     }
 
     public static <T> int calculateNumberOfEqualObjectsInSamePlace(List<T> list1, List<T> list2) {
         return (int) Streams.zip(list1.stream(), list2.stream(), Objects::equals).filter(Boolean::booleanValue).count();
     }
-
 }
