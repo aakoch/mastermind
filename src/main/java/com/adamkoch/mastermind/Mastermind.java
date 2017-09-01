@@ -39,8 +39,8 @@ import static java.util.function.Predicate.isEqual;
  */
 public class Mastermind {
 
-    static final List<Peg> AVAILABLE_COLORS = Arrays.asList(Peg.values());
-    static final int BOARD_SIZE = 5;
+    private static final List<Peg> AVAILABLE_COLORS = Arrays.asList(Peg.values());
+    private static final int BOARD_SIZE = 5;
     private static final Logger LOGGER = LogManager.getLogger(Mastermind.class);
     private static Random RANDOM = new Random();
 
@@ -219,7 +219,7 @@ public class Mastermind {
         public Game(Board board) {
             this.board = board;
         }
-        
+
         int play() {
             final int[] numberOfGuesses = {0};
 
